@@ -1,4 +1,3 @@
-# .github/workflows/sync-to-hf.yml
 name: Sync to Hugging Face
 
 on:
@@ -6,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'README.md'
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -15,31 +15,60 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create combined README
+      - name: Install Hugging Face CLI
         run: |
-          # Create temporary file with HF front matter and dataset card
-          cat > temp_readme.md << 'EOL'
-          [Previous front matter content...]
-          EOL
+          pip install --upgrade huggingface_hub
           
-          cat README.md >> temp_readme.md
-          cat >> temp_readme.md << 'EOL'
-          [Previous additional content...]
-          EOL
-          mv temp_readme.md README.md
-
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          
-      - name: Clone and Push to Hugging Face
+      - name: Login to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git clone "https://$HF_TOKEN@huggingface.co/datasets/danielrosehill/LLM-Assistant-Library" hf_repo
+          huggingface-cli login --token $HF_TOKEN
+
+      - name: Create combined README
+        run: |
+          # Create temporary file with HF front matter
+          cat > temp_readme.md << 'EOL'
+          ---
+          license: apache-2.0
+          annotations_creators:
+          - expert-generated
+          language:
+          - en
+          language_creators:
+          - expert-generated
+          size_categories:
+          - n<1K
+          source_datasets:
+          - original
+          task_categories:
+          - text-generation
+          - conversational
+          task_ids:
+          - dialogue-modeling
+          - text-generation
+          paperswithcode_id: null
+          pretty_name: LLM Assistant Library
+          tags:
+          - llm-agents
+          - prompts
+          - system-prompts
+          ---
+
+          EOL
+          
+          cat README.md >> temp_readme.md
+          mv temp_readme.md README.md
+
+      - name: Push to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git clone "https://huggingface.co/datasets/danielrosehill/LLM-Assistant-Library" hf_repo
           cp README.md hf_repo/
           cd hf_repo
           git add README.md
           git commit -m "Sync README from GitHub"
-          git push origin main
+          git push "https://user:$HF_TOKEN@huggingface.co/datasets/danielrosehill/LLM-Assistant-Library" main
