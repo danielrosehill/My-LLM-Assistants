@@ -2,9 +2,15 @@
 
 ## Purpose Statement
 
-Contains an updated index of configuration text for large language model assistants and agents. 
+This repository contains a periodically updated list of large language model assistants and agents that I have configured for my own personal use.
 
 This repository is updated from [my original LLM agents repo](https://github.com/danielrosehill/Custom-LLM-Agents/tree/main). 
+
+## Structure
+
+An index of the configurations appears below, and the root for the finished configurations is in `/finished/by-category`.
+
+Some of these are deployed on Hugging Face Chat for anybody to use. 
 
 ## Index
 
