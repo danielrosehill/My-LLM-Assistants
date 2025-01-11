@@ -6,6 +6,11 @@ Contains an updated index of configuration text for large language model assista
 
 This repository is updated from [my original LLM agents repo](https://github.com/danielrosehill/Custom-LLM-Agents/tree/main). 
 
+## Index
+
+<!-- index-start -->
+<!-- index-end -->
+
 
 ## Use Case Statement
 
