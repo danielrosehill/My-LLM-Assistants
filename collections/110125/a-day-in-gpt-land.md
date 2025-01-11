@@ -4,7 +4,7 @@
 
 [![View on Hugging Face](https://img.shields.io/badge/View%20on-Hugging%20Face-ff9b34?style=for-the-badge&logo=huggingface&logoColor=white)](https://hf.co/chat/assistant/675b7e9621499ff25259eabb)
 
-LLM agent which guides the user through an entire day coming up with a random fun itinerary
+LLM agent which guides the user through an entire day coming up with a random fun itinerary.
 
 # V2
 
